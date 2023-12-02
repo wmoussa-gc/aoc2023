@@ -6,14 +6,14 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Day1 {
+public class Main {
     public static void main(String[] args) throws IOException {
         part1();
         part2();
     }
 
     private static void part1() throws IOException {
-        String fileName = "src/day1/Day1-input.txt";
+        String fileName = "src/day1/input.txt";
         List<String> lines = Files.readAllLines(Path.of(fileName));
         int total = 0;
         for (String line : lines) {
@@ -29,12 +29,10 @@ public class Day1 {
     }
 
     private static void part2() throws IOException {
-        String fileName = "src/day1/Day1-input.txt";
+        String fileName = "src/day1/input.txt";
         List<String> lines = Files.readAllLines(Path.of(fileName));
         int total = 0;
         for (String line : lines) {
-            System.out.print(line);
-
             line = line.replaceAll("one", "one1one");
             line = line.replaceAll("two", "two2two");
             line = line.replaceAll("three", "three3three");
@@ -45,8 +43,6 @@ public class Day1 {
             line = line.replaceAll("eight", "eight8eight");
             line = line.replaceAll("nine", "nine9nine");
 
-            System.out.print(" -> " + line);
-
             List<Integer> number = new ArrayList<>();
             for (String character : line.split("")) {
                 if (isNumeric(character)) {
@@ -54,7 +50,6 @@ public class Day1 {
                 }
             }
             int temp = number.get(0) * 10 + number.get(number.size() - 1);
-            System.out.println(" = " + temp);
             total += temp;
         }
         System.out.println(total);
