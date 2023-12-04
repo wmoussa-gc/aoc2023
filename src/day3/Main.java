@@ -124,30 +124,30 @@ public class Main {
         }
         Map<String, List<Integer>> gears_and_part = new HashMap<>();
         for (int row = 0; row < number_of_rows; row++) {
-            String is_surrounded_by_gear = null;
+            String gearCoordinate = null;
             String part = "";
             for (int col = 0; col < number_of_columns; col++) {
                 if (isDigit(matrix[row][col])) {
                     part += matrix[row][col];
-                    is_surrounded_by_gear = is_surrounded_by_gear != null ? is_surrounded_by_gear : isSurroundedByGear(matrix, row, col, number_of_rows);
-                } else if (!part.isEmpty() && is_surrounded_by_gear != null) {
+                    gearCoordinate = gearCoordinate != null ? gearCoordinate : isSurroundedByGear(matrix, row, col, number_of_rows);
+                } else if (!part.isEmpty() && gearCoordinate != null) {
                     System.out.println(part);
-                    List<Integer> parts = gears_and_part.getOrDefault(is_surrounded_by_gear, new ArrayList<>());
+                    List<Integer> parts = gears_and_part.getOrDefault(gearCoordinate, new ArrayList<>());
                     parts.add(Integer.parseInt(part));
-                    gears_and_part.put(is_surrounded_by_gear, parts);
+                    gears_and_part.put(gearCoordinate, parts);
                     part = ""; //reset
-                    is_surrounded_by_gear = null;
+                    gearCoordinate = null;
                 } else if (!part.isEmpty()) {
                     part = "";
                 }
             }
 
             // last col
-            if (!part.isEmpty() && is_surrounded_by_gear != null) {
+            if (!part.isEmpty() && gearCoordinate != null) {
                 System.out.println(part);
-                List<Integer> parts = gears_and_part.getOrDefault(is_surrounded_by_gear, new ArrayList<>());
+                List<Integer> parts = gears_and_part.getOrDefault(gearCoordinate, new ArrayList<>());
                 parts.add(Integer.parseInt(part));
-                gears_and_part.put(is_surrounded_by_gear, parts);
+                gears_and_part.put(gearCoordinate, parts);
             }
 
         }
