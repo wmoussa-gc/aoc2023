@@ -14,7 +14,7 @@ public class Main {
     private final static String FILENAME = "src/" + Main.class.getPackageName() + "/input.txt";
 
     public static void main(String[] args) throws IOException {
-        //part1();
+        part1();
         part2();
     }
 
