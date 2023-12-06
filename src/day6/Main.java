@@ -5,6 +5,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.nio.file.Files.readAllLines;
 
@@ -12,14 +14,14 @@ public class Main {
     private final static String FILENAME = "src/" + Main.class.getPackageName() + "/input.txt";
 
     public static void main(String[] args) throws IOException {
-        //part1();
-        part2();
+        part1();
+        //part2();
     }
 
     private static void part1() throws IOException {
         List<String> lines = readAllLines(Path.of(FILENAME));
-        String[] timesStr = lines.get(0).split(":")[1].trim().split(" ");
-        String[] distanceStr = lines.get(1).split(":")[1].trim().split(" ");
+        String[] timesStr = getNumbers(lines.get(0).split(":")[1]);
+        String[] distanceStr = getNumbers(lines.get(1).split(":")[1]);
 
         List<String> times = new ArrayList<>(Arrays.asList(timesStr));
         times.removeAll(Arrays.asList("", null));
@@ -39,6 +41,17 @@ public class Main {
             result *= record_beaten;
         }
         System.out.println(result);
+    }
+
+    private static String[] getNumbers(String input) {
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(input);
+        List<String> numbers = new ArrayList<>();
+        while (matcher.find()) {
+            String number = matcher.group();
+            numbers.add(number);
+        }
+        return numbers.toArray(new String[0]);
     }
 
     private static void part2() throws IOException {
