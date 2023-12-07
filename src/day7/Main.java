@@ -10,7 +10,7 @@ import java.util.Map;
 import static java.nio.file.Files.readAllLines;
 
 public class Main {
-    private final static String FILENAME = "src/" + Main.class.getPackageName() + "/sample.txt";
+    private final static String FILENAME = "src/" + Main.class.getPackageName() + "/input.txt";
 
     public static void main(String[] args) throws IOException {
         //part1();
@@ -186,11 +186,10 @@ public class Main {
 
             // J treatment
             if (count.get('J') != null) {
-                Map.Entry<Character, Integer> topCard = count.entrySet().stream()
-                        .sorted(Map.Entry.<Character, Integer>comparingByValue().reversed()).toList().get(0);
-                if (topCard.getKey() != 'J'){
+                Map.Entry<Character, Integer> topCard = count.entrySet().stream().filter(x -> x.getKey() != 'J').max(Map.Entry.comparingByValue()).orElse(null);
+                if (topCard != null) {
                     count.put(topCard.getKey(), topCard.getValue() + count.get('J'));
-                    count.put('J', 0);
+                    count.put('J', 0); // clear the Jokers
                 }
             }
 
@@ -224,43 +223,36 @@ public class Main {
         long sum = 0;
         for (Hand hand : sorted_high_card) {
             System.out.printf("%s|%d|%s|%s\n", hand.card, hand.bid, rank, "sorted_high_card");
-
             sum += rank * hand.bid;
             rank++;
         }
         for (Hand hand : sorted_one_pair) {
             System.out.printf("%s|%d|%s|%s\n", hand.card, hand.bid, rank, "sorted_one_pair");
-
             sum += rank * hand.bid;
             rank++;
         }
         for (Hand hand : sorted_two_pair) {
             System.out.printf("%s|%d|%s|%s\n", hand.card, hand.bid, rank, "sorted_two_pair");
-
             sum += rank * hand.bid;
             rank++;
         }
         for (Hand hand : sorted_three_of_kind) {
             System.out.printf("%s|%d|%s|%s\n", hand.card, hand.bid, rank, "sorted_three_of_kind");
-
             sum += rank * hand.bid;
             rank++;
         }
         for (Hand hand : sorted_full_house) {
             System.out.printf("%s|%d|%s|%s\n", hand.card, hand.bid, rank, "sorted_full_house");
-
             sum += rank * hand.bid;
             rank++;
         }
         for (Hand hand : sorted_four_of_kind) {
             System.out.printf("%s|%d|%s|%s\n", hand.card, hand.bid, rank, "sorted_four_of_kind");
-
             sum += rank * hand.bid;
             rank++;
         }
         for (Hand hand : sorted_five_of_kind) {
             System.out.printf("%s|%d|%s|%s\n", hand.card, hand.bid, rank, "sorted_five_of_kind");
-
             sum += rank * hand.bid;
             rank++;
         }
