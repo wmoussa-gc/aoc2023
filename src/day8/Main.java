@@ -19,27 +19,11 @@ public class Main {
 
     private static void part1() throws IOException {
         List<String> lines = readAllLines(Path.of(FILENAME));
-        Map<String, Node> nodes = new HashMap<>();
-
-        for (String s : lines.subList(2, lines.size())) {
-            Node temp = new Node(s.split("=")[0].trim(), null, null);
-            nodes.put(s.split("=")[0].trim(), temp);
-        }
-
-        for (String s : lines.subList(2, lines.size())) {
-            String name = s.split("=")[0].trim();
-            String clean = s.split("=")[1].trim().replaceAll("[()]", "");
-            String left = clean.split(",")[0].trim();
-            String right = clean.split(",")[1].trim();
-
-            nodes.get(name).left = nodes.get(left).name;
-            nodes.get(name).right = nodes.get(right).name;
-        }
+        Map<String, Node> nodes = build_the_nodes(lines);
 
         int steps = 0;
         String[] instructions = lines.get(0).split("");
         String next = "AAA";
-
         while (!next.equals("ZZZ")) {
             for (String instruction : instructions) {
                 if (instruction.equals("L")) {
@@ -54,28 +38,26 @@ public class Main {
         System.out.println(steps);
     }
 
-    /**
-     * Find each node ending with A compute the steps to reach the first node ending with Z.
-     * Find the LCM of each node's steps since it is going to keep cycling until all ends up with Z as a common denomination
-     */
-    private static void part2() throws IOException {
-        List<String> lines = readAllLines(Path.of(FILENAME));
+    private static Map<String, Node> build_the_nodes(List<String> lines) throws IOException {
         Map<String, Node> nodes = new HashMap<>();
-
-        for (String s : lines.subList(2, lines.size())) {
-            Node temp = new Node(s.split("=")[0].trim(), null, null);
-            nodes.put(s.split("=")[0].trim(), temp);
-        }
 
         for (String s : lines.subList(2, lines.size())) {
             String name = s.split("=")[0].trim();
             String clean = s.split("=")[1].trim().replaceAll("[()]", "");
             String left = clean.split(",")[0].trim();
             String right = clean.split(",")[1].trim();
-
-            nodes.get(name).left = nodes.get(left).name;
-            nodes.get(name).right = nodes.get(right).name;
+            nodes.put(name, new Node(name, left, right));
         }
+        return nodes;
+    }
+
+    /**
+     * Find each node ending with A compute the steps to reach the first node ending with Z.
+     * Find the LCM of each node's steps since it is going to keep cycling until all ends up with Z as a common denomination
+     */
+    private static void part2() throws IOException {
+        List<String> lines = readAllLines(Path.of(FILENAME));
+        Map<String, Node> nodes = build_the_nodes(lines);
 
         String[] instructions = lines.get(0).split("");
 
@@ -129,15 +111,6 @@ public class Main {
             this.name = name;
             this.left = left;
             this.right = right;
-        }
-
-        @Override
-        public String toString() {
-            return "Node{" +
-                    "name=" + name +
-                    ", left=" + left +
-                    ", right=" + right +
-                    '}';
         }
     }
 
